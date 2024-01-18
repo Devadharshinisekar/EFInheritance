@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ELMSApplication.Migrations
 {
     [DbContext(typeof(ELMSApplicationContext))]
-    [Migration("20230328195217_CreateDatabase")]
-    partial class CreateDatabase
+    [Migration("20240118070904_initial")]
+    partial class initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -27,53 +27,55 @@ namespace ELMSApplication.Migrations
 
             modelBuilder.Entity("ELMSApplication.Employee", b =>
                 {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
-
                     b.Property<string>("EmployeeId")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(75)
+                        .HasColumnType("nvarchar(75)");
 
                     b.Property<string>("EmployeeName")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(75)
+                        .HasColumnType("nvarchar(75)");
+
+                    b.Property<long>("Id")
+                        .HasColumnType("bigint");
 
                     b.Property<bool>("IsAdmin")
                         .HasColumnType("bit");
 
+                    b.Property<bool>("KeepLoggedIn")
+                        .HasColumnType("bit");
+
                     b.Property<string>("Password")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
+                    b.HasKey("EmployeeId");
 
                     b.ToTable("Employee");
                 });
 
             modelBuilder.Entity("ELMSApplication.Leave", b =>
                 {
-                    b.Property<int>("LeaveId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("LeaveId"));
-
-                    b.Property<int>("EmployeeId")
-                        .HasColumnType("int");
+                    b.Property<string>("EmployeeId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime>("EndDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("LeaveId")
+                        .HasColumnType("int");
+
                     b.Property<string>("LeaveType")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(75)
+                        .HasColumnType("nvarchar(75)");
 
                     b.Property<DateTime>("StartDate")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Status")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(75)
+                        .HasColumnType("nvarchar(75)");
 
-                    b.HasKey("LeaveId");
+                    b.HasKey("EmployeeId");
 
                     b.ToTable("Leave");
                 });

@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace ELMSApplication.Migrations
 {
     /// <inheritdoc />
-    public partial class CreateDatabase : Migration
+    public partial class initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -15,33 +15,32 @@ namespace ELMSApplication.Migrations
                 name: "Employee",
                 columns: table => new
                 {
-                    Id = table.Column<long>(type: "bigint", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    EmployeeName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    EmployeeId = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Password = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    IsAdmin = table.Column<bool>(type: "bit", nullable: false)
+                    EmployeeId = table.Column<string>(type: "nvarchar(75)", maxLength: 75, nullable: false),
+                    Id = table.Column<long>(type: "bigint", nullable: false),
+                    EmployeeName = table.Column<string>(type: "nvarchar(75)", maxLength: 75, nullable: true),
+                    Password = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    IsAdmin = table.Column<bool>(type: "bit", nullable: false),
+                    KeepLoggedIn = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Employee", x => x.Id);
+                    table.PrimaryKey("PK_Employee", x => x.EmployeeId);
                 });
 
             migrationBuilder.CreateTable(
                 name: "Leave",
                 columns: table => new
                 {
-                    LeaveId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    EmployeeId = table.Column<int>(type: "int", nullable: false),
+                    EmployeeId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    LeaveId = table.Column<int>(type: "int", nullable: false),
                     StartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     EndDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    LeaveType = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Status = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    LeaveType = table.Column<string>(type: "nvarchar(75)", maxLength: 75, nullable: true),
+                    Status = table.Column<string>(type: "nvarchar(75)", maxLength: 75, nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Leave", x => x.LeaveId);
+                    table.PrimaryKey("PK_Leave", x => x.EmployeeId);
                 });
         }
 
